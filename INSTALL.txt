@@ -1,0 +1,10 @@
+Note: Relies on
+https://github.com/sfiligoi/prp-htcondor-portal
+
+For each supported namespace:
+1) deploy service account
+kubectl create -n $NAMESPACE -f prp-htcondor-portal/provisioner/k8s/prp-htcondor-provisioner-account.yaml
+
+2) create shared secret
+kubectl create secret generic t2-htcondor-wn-secret -n $NAMESPACE --from-file=prp-wn.token=t2-wn-cms-ucsd-t2.token
+
