@@ -30,6 +30,7 @@ add_values_to 10-site.conf \
     GLIDEIN_ResourceName "\"${GLIDEIN_ResourceName:-SDSC-PRP-CE1}\"" 
 
 echo "# This file was created by $prog" > /etc/condor/config.d/11-glidein-consts.conf
+echo 'CCB_ADDRESS = $(COLLECTOR_HOST)' >> /etc/condor/config.d/11-glidein-consts.conf
 echo 'STARTD_EXPRS = $(STARTD_EXPRS) IS_GLIDEIN GLIDEIN_SiteWMS GLIDEIN_Name' \
   >> /etc/condor/config.d/11-glidein-consts.conf
 add_values_to 11-glidein-consts.conf \
