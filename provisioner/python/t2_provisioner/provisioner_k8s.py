@@ -89,7 +89,25 @@ class T2ProvisionerK8S(ProvisionerK8S):
    def _augment_volumes(self, volumes, attrs):
       """Add any additional (volume,mount) pair to the dictionary (attrs is read-only)"""
 
-      ProvisionerK8S(self, volumes, attrs)
+      # mount the token secret
+      volumes['configpasswd'] = \
+                   (
+                      {
+                         'secret': {
+                            'secretName': 't2-htcondor-wn-secret',
+                            'items': [{
+                               'key': 'prp-wn.token',
+                               'path': 'prp-wn.token',
+                               'defaultMode': 256
+                            }]
+                         }
+                      },
+                      {
+                         'mountPath': '/etc/condor/tokens.d/prp-wn.token',
+                         'subPath': 'prp-wn.token',
+                         'readOnly': True
+                      }
+                   )
 
       # we always need the osg-config and oasis
       for c in (['config-osg','oasis'] + self.cvmfs_mounts):
