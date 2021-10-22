@@ -15,7 +15,7 @@ RUN pip3 install kubernetes
 
 
 # add condor config
-ADD 98_security.config /etc/condor/config.d/98_security.config
+ADD condor.d/*.config /etc/condor/config.d/
 
 
 # configure python packages
