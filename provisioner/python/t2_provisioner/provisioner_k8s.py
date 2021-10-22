@@ -18,7 +18,7 @@ class T2ProvisionerK8S(ProvisionerK8S):
    """Kubernetes Query interface"""
 
    def __init__(self, namespace, cvmfs_mounts,
-                condor_host="htcondor-cm-ucsd.osg.chtc.io”,
+                condor_host="htcondor-cm-ucsd.osg.chtc.io",
                 k8s_image='sfiligoi/prp-ucsdt2-pool:wn',
                 k8s_image_pull_policy='Always',
                 priority_class = None,
