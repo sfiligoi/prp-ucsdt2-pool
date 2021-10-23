@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: t2-provisioner-cms
+  namespace: cms-ucsd-t2
+  labels:
+    k8s-app: t2-provisioner
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      k8s-app: t2-provisioner
+  template:
+    metadata: 
+      labels:
+        k8s-app: t2-provisioner
+    spec:
+      serviceAccountName: prp-htcondor-provisioner
+      restartPolicy: Always
+      nodeSelector:
+        topology.kubernetes.io/region: us-west
+      containers:
+      - name: provisioner
+        image: sfiligoi/prp-ucsdt2-pool:provisioner
+        imagePullPolicy: Always
+        #command: ["sh", "-c", "sleep infinity"]
+        env:
+        - name: K8S_NAMESPACE
+          value: "cms-ucsd-t2"
+        - name: CVMFS_MOUNTS
+          value: "singularity,connect,stash,cms,cms-ib"
+        resources:
+           limits:
+             memory: 2Gi
+             cpu: 1
+           requests:
+             memory: 0.5Gi
+             cpu: 0.1
+        volumeMounts:
+        - name: configpasswd
+          mountPath: /home/provisioner/.condor/tokens.d/prp-wn.token
+          subPath: prp-wn.token
+          readOnly: true
+      volumes:
+      - name: configpasswd
+        secret:
+          secretName: t2-htcondor-wn-secret
+          items:
+             - key: prp-wn.token
+               path: prp-wn.token
+          defaultMode: 292
+
