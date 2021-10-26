@@ -1,5 +1,8 @@
 FROM sfiligoi/prp-portal-wn
 
+# since we have CVMFS, use that singularity as it is updated more often
+RUN rm -f /usr/bin/singularity.org && ln -s /cvmfs/oasis.opensciencegrid.org/mis/singularity/bin/singularity /usr/bin/singularity.org
+
 # some SW way want to directly check for singularity
 RUN ln -s  /usr/bin/singularity_npid.sh /usr/bin/singularity
 
