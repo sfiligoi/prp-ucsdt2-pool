@@ -10,6 +10,9 @@ RUN ln -s  /usr/bin/singularity_npid.sh /usr/bin/singularity
 # Some additional CVMFS checks, also use a PRP-specific DNS name
 ADD image-config.d/* /etc/constainer_startup/image-config.d/
 
+# will also need CVMFS-specific configs
+ADD condor.d/* /etc/condor/config.d/
+
 #
 # Reminder: Accepts env variables
 # CONDOR_HOST STARTD_NOCLAIM_SHUTDOWN
