@@ -11,4 +11,4 @@
 import sys
 import t2_provisioner.provisioner
 
-t2_provisioner.provisioner.main(sys.argv[1], sys.argv[2].split(","))
+t2_provisioner.provisioner.main(sys.argv[1], sys.argv[2], sys.argv[3].split(","))

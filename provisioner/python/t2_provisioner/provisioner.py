@@ -16,8 +16,8 @@ import prp_provisioner.provisioner_logging as provisioner_logging
 import prp_provisioner.provisioner_htcondor as provisioner_htcondor
 import prp_provisioner.event_loop as event_loop
 
-def main(namespace, cvmfs_mounts, max_pods_per_cluster=10, sleep_time=60):
-   log_obj = provisioner_logging.ProvisionerStdoutLogging(want_log_debug=True)
+def main(log_fname, namespace, cvmfs_mounts, max_pods_per_cluster=10, sleep_time=60):
+   log_obj = provisioner_logging.ProvisionerFileLogging(log_fname, want_log_debug=True)
    # TBD: Proper security
    schedd_obj = provisioner_htcondor.ProvisionerSchedd(namespace, {'.*':'.*'})
    collector_obj = provisioner_htcondor.ProvisionerCollector(namespace, '.*')
@@ -31,9 +31,10 @@ def main(namespace, cvmfs_mounts, max_pods_per_cluster=10, sleep_time=60):
          el.one_iteration()
       except:
          log_obj.log_debug("[Main] Exception in one_iteration")
+      log_obj.sync()
       time.sleep(sleep_time)
 
 if __name__ == "__main__":
    # execute only if run as a script
-   main(sys.argv[1], sys.argv[2].split(","))
+   main(sys.argv[1], sys.argv[2], sys.argv[3].split(","))
 
