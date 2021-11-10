@@ -41,6 +41,8 @@ spec:
           mountPath: /home/provisioner/.condor/tokens.d/prp-wn.token
           subPath: prp-wn.token
           readOnly: true
+        - name: log-pvc
+          mountPath: /var/log/provisioner
       volumes:
       - name: configpasswd
         secret:
@@ -49,4 +51,7 @@ spec:
              - key: prp-wn.token
                path: prp-wn.token
           defaultMode: 292
+      - name: log-pvc
+        persistentVolumeClaim:
+          claimName: t2-provisioner-log-pvc
 
